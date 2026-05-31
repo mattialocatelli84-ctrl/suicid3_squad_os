@@ -1,55 +1,134 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Suicid3 Squad OS</title>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
+
 body{
     margin:0;
-    font-family:Arial, sans-serif;
-    background:#0b1830;
+    background:#081321;
     color:white;
+    font-family:Arial,sans-serif;
+}
+
+.container{
     display:flex;
     justify-content:center;
     align-items:center;
     height:100vh;
+    flex-direction:column;
 }
 
-.container{
+.card{
+    background:#10233d;
+    padding:40px;
+    border-radius:20px;
+    min-width:400px;
     text-align:center;
 }
 
-h1{
-    font-size:48px;
-}
-
 button{
-    padding:15px 40px;
-    font-size:20px;
+    padding:15px 30px;
     border:none;
     border-radius:10px;
     cursor:pointer;
+    margin-top:20px;
 }
+
+input{
+    width:100%;
+    padding:12px;
+    border-radius:8px;
+    border:none;
+    margin-top:10px;
+}
+
 </style>
 </head>
 
 <body>
 
 <div class="container">
-    <h1>SUICID3 SQUAD OS</h1>
 
-    <button onclick="entra()">
-        ENTRA
-    </button>
+<div class="card" id="app">
+
+Caricamento...
+
+</div>
+
 </div>
 
 <script>
-function entra(){
-    alert("Guild OS in costruzione");
+
+const SUPABASE_URL = "https://ygrjxaflqkwvszdsbnpu.supabase.co";
+
+const SUPABASE_KEY = "QUI_METTEREMO_LA_ANON_KEY";
+
+const supabaseClient = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+async function init(){
+
+    const { data,error } = await supabaseClient
+        .from("guilds")
+        .select("*");
+
+    if(error){
+        document.getElementById("app").innerHTML =
+        "<h2>Errore connessione database</h2>";
+        return;
+    }
+
+    if(data.length === 0){
+
+        document.getElementById("app").innerHTML = `
+
+        <h1>⚙️ Prima Configurazione</h1>
+
+        <p>Nessuna gilda configurata</p>
+
+        <input id="guildName"
+        placeholder="Nome Gilda">
+
+        <button onclick="searchGuild()">
+            Cerca su Albion
+        </button>
+
+        `;
+
+        return;
+    }
+
+    document.getElementById("app").innerHTML = `
+
+        <h1>SUICID3 SQUAD OS</h1>
+
+        <button onclick="alert('Discord Login arriverà nel prossimo step')">
+            ENTRA
+        </button>
+
+    `;
 }
+
+function searchGuild(){
+
+    alert("Modulo Albion API prossimo step");
+
+}
+
+init();
+
 </script>
 
 </body>
+
 </html>
