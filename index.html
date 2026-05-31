@@ -119,10 +119,106 @@ async function init(){
     `;
 }
 
-function searchGuild(){
+async function searchGuild(){
 
-    alert("Modulo Albion API prossimo step");
+    const guildName =
+        document.getElementById("guildName").value;
 
+    if(!guildName){
+        alert("Inserisci il nome della gilda");
+        return;
+    }
+
+    document.getElementById("app").innerHTML =
+    "<h2>Ricerca in corso...</h2>";
+
+    try{
+
+        const response = await fetch(
+            "https://gameinfo.albiononline.com/api/gameinfo/search?q="
+            + encodeURIComponent(guildName)
+        );
+
+        const result = await response.json();
+
+        if(!result.guilds || result.guilds.length === 0){
+
+            document.getElementById("app").innerHTML = `
+                <h2>Nessuna gilda trovata</h2>
+                <button onclick="location.reload()">
+                    Torna Indietro
+                </button>
+            `;
+
+            return;
+        }
+
+        let html = `
+            <h2>Risultati Ricerca</h2>
+            <table
+            style="
+            width:100%;
+            border-collapse:collapse;
+            margin-top:20px;">
+            <tr>
+                <th>Nome</th>
+                <th>Guild ID</th>
+            </tr>
+        `;
+
+        result.guilds.forEach(guild => {
+
+            html += `
+            <tr
+            style="cursor:pointer"
+            onclick="selectGuild(
+                '${guild.Id}',
+                '${guild.Name}'
+            )">
+
+                <td>${guild.Name}</td>
+                <td>${guild.Id}</td>
+
+            </tr>
+            `;
+
+        });
+
+        html += "</table>";
+
+        document.getElementById("app").innerHTML = html;
+
+    }
+    catch(error){
+
+        document.getElementById("app").innerHTML =
+        "<h2>Errore durante la ricerca</h2>";
+
+    }
+
+}
+    function selectGuild(id,name){
+
+    document.getElementById("app").innerHTML = `
+
+        <h2>Gilda Selezionata</h2>
+
+        <p><b>Nome:</b> ${name}</p>
+
+        <p><b>Guild ID:</b> ${id}</p>
+
+        <button onclick="saveGuild(
+            '${id}',
+            '${name}'
+        )">
+
+            AGGIUNGI GILDA
+
+        </button>
+
+    `;
+
+}
 }
 
 init();
