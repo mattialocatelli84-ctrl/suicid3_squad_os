@@ -78,6 +78,23 @@ const supabaseClient = supabase.createClient(
 
 async function init(){
 
+    document.getElementById("app").innerHTML = `
+
+        <h1>⚙️ Prima Configurazione</h1>
+
+        <p>Nessuna gilda configurata</p>
+
+        <input id="guildName"
+        placeholder="Nome Gilda">
+
+        <button onclick="searchGuild()">
+            Cerca su Albion
+        </button>
+
+    `;
+
+}
+
     const { data,error } = await supabaseClient
         .from("guilds")
         .select("*");
