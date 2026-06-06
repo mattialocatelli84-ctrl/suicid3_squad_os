@@ -71,11 +71,7 @@ const SUPABASE_URL = "https://ygrjxaflqkwvszdsbnpu.supabase.co";
 
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlncmp4YWZscWt3dnN6ZHNibnB1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAyNTA4NTEsImV4cCI6MjA5NTgyNjg1MX0.Dgdhvo1wfLMbblmXl9mppAIQh2GTdl8TjbG2pPxpgx4";
 
-const supabaseClient = supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-);
-
+const supabaseClient = {};
 async function init(){
 
     document.getElementById("app").innerHTML = `
